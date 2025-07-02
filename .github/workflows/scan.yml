@@ -59,4 +59,5 @@ jobs:
             - uses: zaproxy/action-baseline@v0.12.0
               with:
                 target: 'http://localhost:5000'
+                cmd_options: '-r zap-report.html'
                 allow_issue_writing: false
