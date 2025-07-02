@@ -9,8 +9,19 @@ jobs:
         steps:
             - name: Checkout the code
               uses: actions/checkout@v4
+            
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12' 
 
-            - name: Run SAST using Snyk Action
-              uses: snyk/actions/node@master
+            - name: Set up Snyk
+              uses: snyk/actions/setup@master
+            
+            - name: Install the dependencies
+              run: pip install -r requirements.txt
+
+            - name: Snyk monitor
+              run: snyk test
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
