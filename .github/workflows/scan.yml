@@ -1,0 +1,16 @@
+name: SAST and DAST scan using GH Actions
+on:
+    push:
+        branches: ['main']
+
+jobs:
+    sast-and-dast:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Run SAST using Snyk Action
+              uses: snyk/actions/node@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
