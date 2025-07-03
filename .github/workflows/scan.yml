@@ -60,7 +60,7 @@ jobs:
               continue-on-error: true                        
               uses: PortSwigger/dastardly-github-action@main
               with:
-                target-url: 'https://localhost:5000'
+                target-url: 'http://localhost:5000'
             
             - name: Publish Test Report
               if: always()
