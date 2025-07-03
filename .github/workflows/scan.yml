@@ -49,16 +49,22 @@ jobs:
               with:
                 sarif_file: snyk-oss.sarif
             
-            # OWASP ZAP DAST - Scanning locally
+            # Dastardly by PortSwigger - DAST
 
             - name: Launch app
               run: |
                 nohup python vuln_app.py &
                 sleep 10
-
-            - uses: zaproxy/action-baseline@v0.12.0
+            
+            - name: Run Dastardly Action Step
+              continue-on-error: true                        
+              uses: PortSwigger/dastardly-github-action@main
               with:
-                target: 'http://localhost:5000'
-                artifact_name: zap-scan-report 
-                allow_issue_writing: false
-                cmd_options: '-r zap-report.html'
+                target-url: 'https://localhost:5000'
+            
+            - name: Publish Test Report
+              if: always()
+              uses: mikepenz/action-junit-report@v3
+              with:
+                report_paths: '**/dastardly-report.xml'
+                require_tests: true
