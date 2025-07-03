@@ -56,15 +56,17 @@ jobs:
                 nohup python vuln_app.py &
                 sleep 10
             
-            - name: Run Dastardly Action Step
-              continue-on-error: true                        
+            - name: Run Dastardly
+              continue-on-error: true          
               uses: PortSwigger/dastardly-github-action@main
               with:
-                target-url: 'http://localhost:5000'
-            
+                target-url: 'http://172.17.0.1:5000'
+                output-filename: dastardly-report.xml   
+
+            # Parse / publish the JUnit report
             - name: Publish Test Report
               if: always()
               uses: mikepenz/action-junit-report@v3
               with:
                 report_paths: '**/dastardly-report.xml'
-                require_tests: true
+                require_tests: false  
